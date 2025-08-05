@@ -4,7 +4,7 @@ import logo from '../assets/bird-svgrepo-com.svg';
 function Header() {
     return (
         <header>
-            <p className='logo'><img src={logo} width='28px' height='28px' /> MEMOBIRD</p>
+            <p className='logo'><img src={logo} width='32px' height='32px' /> MEMOBIRD</p>
             <div className="score-contaier">
                 <span id="score">Score | </span>
                 <span id="best-score">Best Score</span>
