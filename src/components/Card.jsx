@@ -1,7 +1,8 @@
-function Card() {
+function Card({name, image}) {
     return (
         <div className="card">
-            <p id='bird-name'>yellow headed bird</p>
+            <img src = {image} width={'150px'} />
+            <p>{name}</p>
         </div>
     );
 }
