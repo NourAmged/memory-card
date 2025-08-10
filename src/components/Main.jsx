@@ -2,10 +2,12 @@
 import { useEffect, useState } from "react";
 import Card from "./Card";
 import Loading from "./Loading";
+import GameOver from "./GameOver";
 
 function Main() {
     const [birdData, setBirdData] = useState(null);
     const [currentPick, setCurrentPick] = useState([]);
+    const [gameOver, setGameOver] = useState(false);
 
     useEffect(() => {
         const API_KEY = import.meta.env.VITE_API_KEY;
@@ -28,17 +30,19 @@ function Main() {
 
 
     useEffect(() => {
-        const lastPickIdx = currentPick.length - 1;
-        const prevPickIdx = currentPick.length - 2;
-
-        if(currentPick.length > 1 && currentPick[lastPickIdx] === currentPick[prevPickIdx])
-            console.log("YOU LOSE");
+        const dupicates = [...new Set(currentPick)];
+        if (currentPick.length > 1 && currentPick.length !== dupicates.length) {
+            setGameOver(true);
+        }
     }, [currentPick]);
 
 
-    if (!birdData || !birdData.entities) {
-        return <Loading />;
-    }
+    if (!birdData || !birdData.entities)
+        return (<Loading />);
+
+    if (gameOver)
+        return (<GameOver />);
+
 
     return (
         <div className="main-content">

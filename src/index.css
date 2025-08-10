@@ -49,11 +49,13 @@ header {
   flex-direction: column;
 }
 
-.card-container, .first-row, .second-row{
+.card-container,
+.first-row,
+.second-row {
   gap: 18px;
 }
 
-.loading{
+.loading {
   font-size: 1.2em;
   color: white;
 }
@@ -66,15 +68,16 @@ header {
   flex-direction: row;
 }
 
-.card p{
+.card p {
   padding-top: 12px;
 }
 
-.card:hover{
+.card:hover {
   transform: translateY(-12px);
 }
 
-.card, img{
+.card,
+img {
   border-radius: 12px;
 }
 
@@ -86,5 +89,26 @@ header {
   height: 150px;
   color: white;
   background-color: var(--forest-brown);
+  cursor: pointer;
+}
+
+.game-over-container {
+  width: 320px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 12px;
+  align-items: center;
+  background-color: var(--forest-green-dark);
+  color: white;
+  font-size: 1.2em;
+  gap: 18px;
+}
+
+.game-over-container button{
+  border-radius: 12px;
+  padding: 6px 14px 6px 14px;
+  border: none;
   cursor: pointer;
 }
