@@ -1,7 +1,7 @@
-function Card({name, image}) {
+function Card({ name, image, id, setCurrentPick, currentPick }) {
     return (
-        <div className="card">
-            <img src = {image} width={'150px'} />
+        <div className="card" onClick={() => setCurrentPick([...currentPick, id])}>
+            <img src={image} width={'150px'} height={'100px'} />
             <p>{name}</p>
         </div>
     );

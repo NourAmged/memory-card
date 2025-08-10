@@ -46,20 +46,36 @@ header {
 
 .card-container {
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
-  gap: 12px;
 }
+
+.card-container, .first-row, .second-row{
+  gap: 18px;
+}
+
+.loading{
+  font-size: 1.2em;
+  color: white;
+}
+
+
 
 .first-row,
 .second-row {
   display: flex;
   flex-direction: row;
-  gap: 12px;
 }
 
 .card p{
   padding-top: 12px;
+}
+
+.card:hover{
+  transform: translateY(-12px);
+}
+
+.card, img{
+  border-radius: 12px;
 }
 
 .card {
@@ -68,7 +84,7 @@ header {
   align-items: center;
   width: 150px;
   height: 150px;
-  border-radius: 12px;
   color: white;
   background-color: var(--forest-brown);
+  cursor: pointer;
 }
