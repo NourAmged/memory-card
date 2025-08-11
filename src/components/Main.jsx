@@ -11,8 +11,9 @@ function Main({ setScore, score, setBestScore, bestScore }) {
     const [birdData, setBirdData] = useState(null);
     const [currentPick, setCurrentPick] = useState([]);
     const [gameOver, setGameOver] = useState(false);
+    const [level, setLevel] = useState(0);
 
-    const fetchData = () => {
+    const fetchData = (level = 0) => {
         const url = "https://nuthatch.lastelm.software/v2/birds?family=Cardinalidae&hasImg=true";
 
         fetch(url, { headers: { "api-key": API_KEY } })
@@ -22,13 +23,13 @@ function Main({ setScore, score, setBestScore, bestScore }) {
                 }
                 return response.json();
             })
-            .then((data) => setBirdData(data["entities"].slice(0, 4)))
+            .then((data) => setBirdData(data["entities"].slice(0, 4 + level)))
             .catch((err) => console.error("Fetch or parse error:", err));
     };
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        fetchData(level);
+    }, [level]);
 
     useEffect(() => {
         const uniquePicks = [...new Set(currentPick)];
@@ -37,25 +38,34 @@ function Main({ setScore, score, setBestScore, bestScore }) {
                 setBestScore(score);
             setGameOver(true);
         }
+
+        else if (currentPick.length > 1 && birdData.length === currentPick.length) {
+            setCurrentPick([]);
+            setLevel(level + 2);
+            fetchData(level);
+        }
+
         else
             setScore(score + 1);
 
     }, [currentPick]);
 
 
-    const resetGame = () =>{
+    const resetGame = () => {
         setScore(-1);
         setCurrentPick([]);
         setGameOver(false);
+        setLevel(0);
         fetchData();
     }
 
     if (!birdData) return <Loading />;
     if (gameOver) return <GameOver bestScore={bestScore} reset={resetGame} />;
 
+    const mid = Math.floor(birdData.length / 2);
     const shuffledBirds = getRandomBirds(birdData);
-    const firstRow = shuffledBirds.slice(0, 2);
-    const secondRow = shuffledBirds.slice(2, 4);
+    const firstRow = shuffledBirds.slice(0, mid);
+    const secondRow = shuffledBirds.slice(mid, birdData.length);
 
     return (
         <div className="main-content">
