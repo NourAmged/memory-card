@@ -12,7 +12,7 @@ function Main({ setScore, score, setBestScore, bestScore }) {
     const [currentPick, setCurrentPick] = useState([]);
     const [gameOver, setGameOver] = useState(false);
 
-    useEffect(() => {
+    const fetchData = () => {
         const url = "https://nuthatch.lastelm.software/v2/birds?family=Cardinalidae&hasImg=true";
 
         fetch(url, { headers: { "api-key": API_KEY } })
@@ -24,6 +24,10 @@ function Main({ setScore, score, setBestScore, bestScore }) {
             })
             .then((data) => setBirdData(data["entities"].slice(0, 4)))
             .catch((err) => console.error("Fetch or parse error:", err));
+    };
+
+    useEffect(() => {
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -38,8 +42,16 @@ function Main({ setScore, score, setBestScore, bestScore }) {
 
     }, [currentPick]);
 
+
+    const resetGame = () =>{
+        setScore(-1);
+        setCurrentPick([]);
+        setGameOver(false);
+        fetchData();
+    }
+
     if (!birdData) return <Loading />;
-    if (gameOver) return <GameOver bestScore={bestScore} />;
+    if (gameOver) return <GameOver bestScore={bestScore} reset={resetGame} />;
 
     const shuffledBirds = getRandomBirds(birdData);
     const firstRow = shuffledBirds.slice(0, 2);
