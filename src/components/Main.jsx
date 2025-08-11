@@ -7,7 +7,7 @@ import getRandomBirds from "../utils/shuffle";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-function Main() {
+function Main({ setScore, score, setBestScore, bestScore }) {
     const [birdData, setBirdData] = useState(null);
     const [currentPick, setCurrentPick] = useState([]);
     const [gameOver, setGameOver] = useState(false);
@@ -22,19 +22,24 @@ function Main() {
                 }
                 return response.json();
             })
-            .then((data) => setBirdData(data["entities"].slice(0,4)))
+            .then((data) => setBirdData(data["entities"].slice(0, 4)))
             .catch((err) => console.error("Fetch or parse error:", err));
     }, []);
 
     useEffect(() => {
         const uniquePicks = [...new Set(currentPick)];
         if (currentPick.length > 1 && currentPick.length !== uniquePicks.length) {
+            if (bestScore < score)
+                setBestScore(score);
             setGameOver(true);
         }
+        else
+            setScore(score + 1);
+
     }, [currentPick]);
 
-    if (!birdData ) return <Loading />;
-    if (gameOver) return <GameOver />;
+    if (!birdData) return <Loading />;
+    if (gameOver) return <GameOver bestScore={bestScore} />;
 
     const shuffledBirds = getRandomBirds(birdData);
     const firstRow = shuffledBirds.slice(0, 2);
