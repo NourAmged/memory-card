@@ -22,7 +22,7 @@ function Main() {
                 }
                 return response.json();
             })
-            .then((data) => setBirdData(data))
+            .then((data) => setBirdData(data["entities"].slice(0,4)))
             .catch((err) => console.error("Fetch or parse error:", err));
     }, []);
 
@@ -33,10 +33,10 @@ function Main() {
         }
     }, [currentPick]);
 
-    if (!birdData || !birdData.entities) return <Loading />;
+    if (!birdData ) return <Loading />;
     if (gameOver) return <GameOver />;
 
-    const shuffledBirds = getRandomBirds(birdData.entities);
+    const shuffledBirds = getRandomBirds(birdData);
     const firstRow = shuffledBirds.slice(0, 2);
     const secondRow = shuffledBirds.slice(2, 4);
 
