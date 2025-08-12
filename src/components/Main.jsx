@@ -11,9 +11,9 @@ function Main({ setScore, score, setBestScore, bestScore }) {
     const [birdData, setBirdData] = useState(null);
     const [currentPick, setCurrentPick] = useState([]);
     const [gameOver, setGameOver] = useState(false);
-    const [level, setLevel] = useState(0);
+    const [numCardInc, setNumCardInc] = useState(0);
 
-    const fetchData = (level = 0) => {
+    const fetchData = (numCardInc = 0) => {
         const url = "https://nuthatch.lastelm.software/v2/birds?family=Cardinalidae&hasImg=true";
 
         fetch(url, { headers: { "api-key": API_KEY } })
@@ -23,13 +23,14 @@ function Main({ setScore, score, setBestScore, bestScore }) {
                 }
                 return response.json();
             })
-            .then((data) => setBirdData(data["entities"].slice(0, 4 + level)))
+            .then((data) => setBirdData(data["entities"].slice(0, 4 + numCardInc)))
             .catch((err) => console.error("Fetch or parse error:", err));
     };
 
     useEffect(() => {
-        fetchData(level);
-    }, [level]);
+        fetchData(numCardInc);
+        console.log("fetch data");
+    }, [numCardInc]);
 
     useEffect(() => {
         const uniquePicks = [...new Set(currentPick)];
@@ -38,24 +39,22 @@ function Main({ setScore, score, setBestScore, bestScore }) {
                 setBestScore(score);
             setGameOver(true);
         }
-
         else if (currentPick.length > 1 && birdData.length === currentPick.length) {
             setCurrentPick([]);
-            setLevel(level + 2);
-            fetchData(level);
+            setNumCardInc(numCardInc + 2);
+            fetchData(numCardInc);
         }
-
-        else
+        else if (currentPick.length >= 1)
             setScore(score + 1);
 
-    }, [currentPick]);
+    }, [currentPick, gameOver, bestScore, birdData]);
 
 
     const resetGame = () => {
-        setScore(-1);
+        setScore(0);
         setCurrentPick([]);
         setGameOver(false);
-        setLevel(0);
+        setNumCardInc(0);
         fetchData();
     }
 

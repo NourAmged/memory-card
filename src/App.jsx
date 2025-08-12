@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import Main from "./components/Main";
 
 function App() {
-    const [score, setScore] = useState(-1);
+    const [score, setScore] = useState(0);
     const [bestScore, setBestScore] = useState(0);
 
     return (
