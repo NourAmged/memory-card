@@ -29,7 +29,6 @@ function Main({ setScore, score, setBestScore, bestScore }) {
 
     useEffect(() => {
         fetchData(numCardInc);
-        console.log("fetch data");
     }, [numCardInc]);
 
     useEffect(() => {
