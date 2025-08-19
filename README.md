@@ -2,6 +2,8 @@
 
 A simple and fun memory card game built with React and Vite. Test your memory by clicking on unique bird cards without repeating any selection!
 
+## [Live Demo](https://memory-card-rho-sandy.vercel.app/)
+
 ## Features
 - Fetches real bird data from an external API
 - Responsive and modern UI
